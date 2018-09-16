@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     EditText etMovie;
     Button btnSearch;
 
-    private final String EXTRAS_MOVIE = "EXTRAS_MOVIE";
+    public String EXTRAS_MOVIE = "EXTRAS_MOVIE";
 
 
     @Override
@@ -50,12 +51,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<ArrayList<MovieItems>> onCreateLoader(int id, Bundle args) {
 
-        String mListMovie = "";
-        if (args == null){
-            mListMovie = args.getString(EXTRAS_MOVIE);
+        String movie = "";
+        if (args != null){
+            movie = args.getString(EXTRAS_MOVIE);
         }
 
-        return new MyAsyncTaskLoader(this, mListMovie);
+        return new MyAsyncTaskLoader(this, movie);
     }
 
     @Override
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             Bundle bundle = new Bundle();
             bundle.putString(EXTRAS_MOVIE, movie);
+            Toast.makeText(MainActivity.this, ""+movie, Toast.LENGTH_SHORT).show();
             getSupportLoaderManager().restartLoader(0, bundle, MainActivity.this);
         }
     };

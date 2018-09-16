@@ -1,6 +1,7 @@
 package com.dicoding.mymovie;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
@@ -20,15 +21,14 @@ public class MyAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>> {
     boolean mHashRestult = false;
     String TAG = MyAsyncTaskLoader.class.getSimpleName();
 
-    String mListMovie;
-    private static final String API_KEY = "d493dc12751ee1c430c9fe295866dbda";
-    private static final String URL = "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&language=en-US&query=";
+    private String mListMovie;
+    private static final String API_KEY = "2dc74e68033717e7b78b34c7f8d0afc5";
 
-    public MyAsyncTaskLoader(final Context context, String listMovie) {
+    public MyAsyncTaskLoader(final Context context, String movie) {
         super(context);
 
         onContentChanged();
-        this.mListMovie = listMovie;
+        this.mListMovie = movie;
     }
 
     @Override
@@ -56,10 +56,10 @@ public class MyAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>> {
         }
     }
 
-//    private static final String API_KEY = "d493dc12751ee1c430c9fe295866dbda";
-
     @Override
     public ArrayList<MovieItems> loadInBackground() {
+        final String URL = "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY +
+                "&language=en-US&query=";
         final ArrayList<MovieItems> movieItemes = new ArrayList<>();
         SyncHttpClient client = new SyncHttpClient();
         client.get(URL + mListMovie, new AsyncHttpResponseHandler() {
@@ -93,10 +93,15 @@ public class MyAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>> {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 //do nothing
-                Log.e(TAG, "onFailure: failed" +error);
+                Log.e(TAG, "failed load data" +error);
+                Log.d(TAG, "onFailure() returned: " + URL);
             }
         });
 
         return movieItemes;
+    }
+
+    protected void onReleaseResources(ArrayList<MovieItems> data) {
+        //nothing to do.
     }
 }
