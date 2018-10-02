@@ -100,8 +100,8 @@ public class MovieAdapter extends BaseAdapter {
             e.printStackTrace();
         }
 
-        Glide.with(this.context).load(URL_IMG + mData.get(position).getPoster()).into(holder.imgPoster);
-        Log.e(TAG, "getView: get");
+        Glide.with(this.context).load(URL_IMG + mData.get(position).getPosterPath()).into(holder.imgPoster);
+        Log.e(TAG, "getView: get "+mData.get(position).getPosterPath());
         return convertView;
     }
 

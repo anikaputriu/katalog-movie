@@ -51,6 +51,7 @@ public class MyAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>> {
         super.onReset();
         onStopLoading();
         if (mHashRestult) {
+            onReleaseResources(mData);
             mData = null;
             mHashRestult = false;
         }
