@@ -1,6 +1,7 @@
 package com.dicoding.mymovie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,7 +73,7 @@ public class MovieAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
         if (convertView == null){
@@ -99,6 +100,17 @@ public class MovieAdapter extends BaseAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,DetailMovieActivity.class);
+                intent.putExtra("EXTRA_TITLE",mData.get(position).getTitle());
+                intent.putExtra("EXTRA_POSTER",mData.get(position).getPosterPath());
+                intent.putExtra("EXTRA_DESC",mData.get(position).getOverview());
+                context.startActivity(intent);
+            }
+        });
 
         Glide.with(this.context).load(URL_IMG + mData.get(position).getPosterPath()).into(holder.imgPoster);
         Log.e(TAG, "getView: get "+mData.get(position).getPosterPath());
